@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dotenvironment"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
     {name = "Pável Hernández Reza", email = "phr2807@gmail.com" }]
 description = "Pequeña librería diseñada para facilitar la obtención y organización de variables de entorno, casteos y valores predeterminados centralizando todo el flujo de trabajo en un solo lugar."
