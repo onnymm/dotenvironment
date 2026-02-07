@@ -3,7 +3,7 @@ Esta librería permite declarar el uso de variables de entorno, conversión al t
 
 Uso:
 ```py
-dotenvironment import DotEnvironment
+from dotenvironment import DotEnvironment
 # Inicialización de una instancia
 env = DotEnvironment()
 # Carga DB_PORT desde el .env
