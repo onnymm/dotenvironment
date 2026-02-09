@@ -52,6 +52,19 @@ DB_PORT = env.variable('DB_PORT', int)
 DB_PORT = env.variable('DB_PORT', int, ...)
 ```
 
+También puede proporcionarse una función como valor predeterminado. Si el valor predeterminado es *callable*, éste será ejecutado únicamente cuando la variable de entorno no esté definida:
+```py
+from datetime import date
+DEFAULT_DATE = env.variable('DATE', datetime.fromisoformat, date.today)
+```
+
+Esto puede ser útil en casos donde obtener un valor predeterminado requiere cómputo complejo o lento innecesario de ejecutar si en realidad sí fue provisto un valor predeterminado:
+```py
+def my_complex_computing_here() -> CustomObject:
+    # some complex computing algorythms
+MY_VALUE = env.variable('MY_VALUE', CustomObject, my_complex_computing_here)
+```
+
 ----
 
 ### Casteos

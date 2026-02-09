@@ -1,5 +1,8 @@
 import os
-from typing import Generic
+from typing import (
+    Callable,
+    Generic,
+)
 from types import EllipsisType
 from ._errors import (
     EnvironmentVariableNotDefined,
@@ -17,7 +20,7 @@ class _VariableConfig(Generic[_T]):
         prefix: str,
         name: str,
         cast: _T | CastFunction[_T],
-        default: _T | EllipsisType = ...
+        default: _T | Callable[[], _T] | EllipsisType = ...
     ) -> None:
 
         # Se valida el nombre
@@ -73,9 +76,19 @@ class _VariableConfig(Generic[_T]):
             raise EnvironmentVariableNotDefined(f'Variable {self._variable_name!r} no definida.')
         # Si el valor por defecto es definido...
         else:
+            # Si el valor proporcionado es un callable...
+            if callable(self._default):
+                # Se ejecuta éste
+                value: _T = self._default()
+            # Si el valor proporcionado no es un callable...
+            else:
+                # Se usa éste
+                value = self._default
+
+            # Se indica que se usó el valor predeterminado
             self._default_used = True
-            # Se usa éste
-            return self._default
+
+            return value
 
     def _cast_value(
         self,

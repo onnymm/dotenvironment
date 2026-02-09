@@ -1,5 +1,8 @@
 import dotenv
-from typing import Any
+from typing import (
+    Any,
+    Callable,
+)
 from types import EllipsisType
 from ._errors import PrefixMustBeUpperCaseError
 from ._types import (
@@ -47,6 +50,19 @@ class DotEnvironment():
 
     En caso de no encontrarse un valor, se usa el valor predeterminado
     proporcionado, que en este caso es `5432`.
+
+    También puede proporcionarse una función como valor predeterminado. Si el valor
+    predeterminado es callable, éste será ejecutado únicamente cuando la variable
+    de entorno no esté definida:
+    >>> from datetime import date
+    >>> DEFAULT_DATE = env.variable('DATE', datetime.fromisoformat, date.today)
+
+    Esto puede ser útil en casos donde obtener un valor predeterminado requiere
+    cómputo complejo o lento innecesario de ejecutar si en realidad sí fue provisto
+    un valor predeterminado:
+    >>> def my_complex_computing_here() -> CustomObject:
+    >>>     # some complex computing algorythms
+    >>> MY_VALUE = env.variable('MY_VALUE', CustomObject, my_complex_computing_here)
 
     Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento
     sin declararse o especificarse explícitamente. El uso de `...` indica que la
@@ -121,7 +137,7 @@ class DotEnvironment():
         self,
         name: str,
         cast: _T | CastFunction[_T],
-        default: _T | EllipsisType = ...
+        default: _T | Callable[[], _T] | EllipsisType = ...,
     ) -> _T:
         """
         ## Nueva variable desde el entorno
@@ -156,6 +172,19 @@ class DotEnvironment():
 
         En caso de no encontrarse un valor, se usa el valor predeterminado
         proporcionado, que en este caso es `5432`.
+
+        También puede proporcionarse una función como valor predeterminado. Si el valor
+        predeterminado es callable, éste será ejecutado únicamente cuando la variable
+        de entorno no esté definida:
+        >>> from datetime import date
+        >>> DEFAULT_DATE = env.variable('DATE', datetime.fromisoformat, date.today)
+
+        Esto puede ser útil en casos donde obtener un valor predeterminado requiere
+        cómputo complejo o lento innecesario de ejecutar si en realidad sí fue provisto
+        un valor predeterminado:
+        >>> def my_complex_computing_here() -> CustomObject:
+        >>>     # some complex computing algorythms
+        >>> MY_VALUE = env.variable('MY_VALUE', CustomObject, my_complex_computing_here)
 
         Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento
         sin declararse o especificarse explícitamente. El uso de `...` indica que la
