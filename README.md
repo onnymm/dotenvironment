@@ -1,6 +1,13 @@
 ## Variables de entorno
 Esta librería permite declarar el uso de variables de entorno, conversión al tipode dato requerido y sus valores predeterminados de una forma rápida y centralizada desde un archivo `.env`.
 
+Instalación:
+```bash
+pip install dotenvironment
+```
+
+----
+
 Uso:
 ```py
 from dotenvironment import DotEnvironment
@@ -11,6 +18,8 @@ DB_PORT = env.variable('DB_PORT', int)
 ```
 
 En este ejemplo se declara el uso de una variable de entorno declarada en el archivo `.env` como `DB_PORT`.
+
+----
 
 ### Prefijos
 Puede usarse un prefijo para evitar colisiones en proyectos grandes.
@@ -27,6 +36,8 @@ Y luego buscar una variable de entorno declarada, por ejemplo, como
 DB_PORT = env.variable('DB_PORT', int)
 ```
 
+----
+
 ### Valores predeterminados
 En caso de usar un valor predeterminado en ausencia de un valor declarado en las variables de entorno, se puede usar un tercer argumento posicional:
 ```py
@@ -34,12 +45,14 @@ DB_PORT = env.variable('DB_PORT', int, 5432)
 ```
 En caso de no encontrarse un valor, se usa el valor predeterminado proporcionado, que en este caso es `5432`.
 
-Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento sin declararse o especificarse explícitamente. El uso de ... indica que la variable es requerida y no tiene valor predeterminado.
+Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento sin declararse o especificarse explícitamente. El uso de `...` indica que la variable es requerida y no tiene valor predeterminado:
 ```py
 # Ambos ejemplos funcionan igual
 DB_PORT = env.variable('DB_PORT', int)
 DB_PORT = env.variable('DB_PORT', int, ...)
 ```
+
+----
 
 ### Casteos
 Al cargar una variable se declara el tipo de dato de ésta. Es importante definirlo correctamente:
@@ -70,6 +83,8 @@ DATE = env.variable('DATE', date.fromisoformat) # Valor obligatorio
 DATE = env.variable('DATE', date.fromisoformat, date.today()) # Valor predeterminado
 ```
 
+----
+
 ### Debug
 Para saber qué variables han sido cargadas puede imprimirse la instancia. Las
 variables que no hayan sido encontradas y que tomaron valores predeterminados
@@ -90,6 +105,7 @@ Puedes acceder a ellas por medio de la instancia:
 print(env['DB_PORT']) # Puede accederse a la variable sin especificar el prefijo
 print(env['ONNYMM_DB_PORT']) # O con el prefijo
 ```
+
 El acceso es de solo lectura. La instancia no permite modificar valores.
 
 O incluso comprobar si una variable fue cargada:
