@@ -35,7 +35,6 @@ Y luego buscar una variable de entorno declarada, por ejemplo, como
 # Carga ONNYMM_DB_PORT desde el .env
 DB_PORT = env.variable('DB_PORT', int)
 ```
-
 ----
 
 ### Valores predeterminados
@@ -65,6 +64,11 @@ def my_complex_computing_here() -> CustomObject:
 MY_VALUE = env.variable('MY_VALUE', CustomObject, my_complex_computing_here)
 ```
 
+Finalmente, si no se requiere castear a un tipo de dato puede omitirse este argumento y el valor se cargará como `str`:
+```py
+# Ambos ejemplos funcionan igual
+DB_PORT = env.variable('DB_PORT') # <class 'str'>
+```
 ----
 
 ### Casteos

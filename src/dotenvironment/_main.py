@@ -51,6 +51,13 @@ class DotEnvironment():
     En caso de no encontrarse un valor, se usa el valor predeterminado
     proporcionado, que en este caso es `5432`.
 
+    Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento
+    sin declararse o especificarse explícitamente. El uso de `...` indica que la
+    variable es requerida y no tiene valor predeterminado:
+    >>> # Ambos ejemplos funcionan igual
+    >>> DB_PORT = env.variable('DB_PORT', int)
+    >>> DB_PORT = env.variable('DB_PORT', int, ...)
+
     También puede proporcionarse una función como valor predeterminado. Si el valor
     predeterminado es callable, éste será ejecutado únicamente cuando la variable
     de entorno no esté definida:
@@ -64,12 +71,9 @@ class DotEnvironment():
     >>>     # some complex computing algorythms
     >>> MY_VALUE = env.variable('MY_VALUE', CustomObject, my_complex_computing_here)
 
-    Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento
-    sin declararse o especificarse explícitamente. El uso de `...` indica que la
-    variable es requerida y no tiene valor predeterminado:
-    >>> # Ambos ejemplos funcionan igual
-    >>> DB_PORT = env.variable('DB_PORT', int)
-    >>> DB_PORT = env.variable('DB_PORT', int, ...)
+    Finalmente, si no se requiere castear a un tipo de dato puede omitirse este
+    argumento y el valor se cargará como `str`:
+    >>> DB_PORT = env.variable('DB_PORT') # <class 'str'>
 
     ****
     ### Casteos
@@ -136,7 +140,7 @@ class DotEnvironment():
     def variable(
         self,
         name: str,
-        cast: _T | CastFunction[_T],
+        cast: type[_T] | CastFunction[_T] = str,
         default: _T | Callable[[], _T] | EllipsisType = ...,
     ) -> _T:
         """
@@ -173,6 +177,13 @@ class DotEnvironment():
         En caso de no encontrarse un valor, se usa el valor predeterminado
         proporcionado, que en este caso es `5432`.
 
+        Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento
+        sin declararse o especificarse explícitamente. El uso de `...` indica que la
+        variable es requerida y no tiene valor predeterminado:
+        >>> # Ambos ejemplos funcionan igual
+        >>> DB_PORT = env.variable('DB_PORT', int)
+        >>> DB_PORT = env.variable('DB_PORT', int, ...)
+
         También puede proporcionarse una función como valor predeterminado. Si el valor
         predeterminado es callable, éste será ejecutado únicamente cuando la variable
         de entorno no esté definida:
@@ -186,12 +197,9 @@ class DotEnvironment():
         >>>     # some complex computing algorythms
         >>> MY_VALUE = env.variable('MY_VALUE', CustomObject, my_complex_computing_here)
 
-        Si no se requiere usar un valor predeterminado puede dejarse el tercer argumento
-        sin declararse o especificarse explícitamente. El uso de `...` indica que la
-        variable es requerida y no tiene valor predeterminado:
-        >>> # Ambos ejemplos funcionan igual
-        >>> DB_PORT = env.variable('DB_PORT', int)
-        >>> DB_PORT = env.variable('DB_PORT', int, ...)
+        Finalmente, si no se requiere castear a un tipo de dato puede omitirse este
+        argumento y el valor se cargará como `str`:
+        >>> DB_PORT = env.variable('DB_PORT') # <class 'str'>
 
         ****
         ### Casteos
